@@ -7,7 +7,7 @@ import (
 )
 
 type User struct {
-	Id            primitive.ObjectID `bson:"_id"`
+	ID            primitive.ObjectID `bson:"_id"`
 	First_name    *string            `json:"first_name" validate:"required, min=3, max=100"`
 	Last_Name     *string            `json:"last_name" validate:"required, min=3, max=100"`
 	Password      *string            `json:"password"  validate:"required, min=6"`

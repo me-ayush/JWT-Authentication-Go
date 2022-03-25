@@ -1,6 +1,7 @@
 package main
 
 import (
+	routes "main/routes"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -24,8 +25,8 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 
-	// routes.AuthRoutes(router)
-	// routes.UserRoutes(router)
+	routes.AuthRoutes(router)
+	routes.UserRoutes(router)
 
 	router.GET("/api-1", func1)
 	router.GET("/api-2", func2)
