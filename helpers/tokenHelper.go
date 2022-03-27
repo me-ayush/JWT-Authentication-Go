@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"main/database"
 	"os"
@@ -25,6 +26,32 @@ type SignedDetails struct {
 
 var userCollection *mongo.Collection = database.OpenCollection(database.Client, "user")
 var SECRET_KEY string = os.Getenv("SECRET_KEY")
+
+func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
+	token, err := jwt.ParseWithClaims(
+		signedToken,
+		&SignedDetails{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(SECRET_KEY), nil
+		},
+	)
+	if err != nil {
+		msg = err.Error()
+		return
+	}
+	claims, ok := token.Claims.(*SignedDetails)
+	if !ok {
+		msg = fmt.Sprintf("token is invalid")
+		msg = err.Error()
+		return
+	}
+	if claims.ExpiresAt < time.Now().Local().Unix() {
+		msg = fmt.Sprintf("token is expired")
+		msg = err.Error()
+		return
+	}
+	return claims, msg
+}
 
 func GenrateAllTokens(email string, firstname string, lastname string, usertype string, uid string) (signedToken string, signedTokenRefresh string, err error) {
 	claims := &SignedDetails{

@@ -74,7 +74,7 @@ func Signup() gin.HandlerFunc {
 		}
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "this email or phone number already exists"})
-
+			return
 		}
 
 		user.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -124,8 +124,8 @@ func Login() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
 			return
 		}
-		token, refreshToken, _ := helpers.GenrateAllTokens(*foundUser.Email, *foundUser.First_name, *foundUser.Last_Name, *foundUser.User_type, *foundUser.User_id)
-		helpers.UpdateAllTokens(token, refreshToken, *foundUser.User_id)
+		token, refreshToken, _ := helpers.GenrateAllTokens(*foundUser.Email, *foundUser.First_name, *foundUser.Last_Name, *foundUser.User_type, *&foundUser.User_id)
+		helpers.UpdateAllTokens(token, refreshToken, *&foundUser.User_id)
 		err = userCollection.FindOne(ctx, bson.M{"user_id": foundUser.User_id}).Decode(&foundUser)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -137,7 +137,7 @@ func Login() gin.HandlerFunc {
 func GetUsers() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := helpers.CheckUserType(c, "ADMIN"); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error", err.Error()})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
@@ -166,30 +166,30 @@ func GetUsers() gin.HandlerFunc {
 				{"_id", 0},
 				{"total_count", 1},
 				{"user_items", bson.D{{"$slice", []interface{}{"$data", startIndex, recordPerPage}}}},
-			}}
-		}
+			}}}
 
 		result, err := userCollection.Aggregate(ctx, mongo.Pipeline{
-			matchStage, groupStage, projectStage
-		})
+			matchStage, groupStage, projectStage})
 		defer cancel()
-		if err != nil{
-			c.JSON(http.StatusInternalServerError, gin.H{"error", "error while lissting user items"})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "error while lissting user items"})
 		}
 
-		var allUsers []bson.M;
-		if err = result.All(ctx, &allUsers); err !=nil{
+		var allUsers []bson.M
+		if err = result.All(ctx, &allUsers); err != nil {
 			log.Fatal(err)
 		}
-		c.JSON(htpp.StatusOK, allUsers[0])
+		c.JSON(http.StatusOK, allUsers[0])
 	}
 }
 
 func GetUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userId := c.Param("user_id")
+		fmt.Println(userId)
 		if err := helpers.MatchuserTypeToUid(c, userId); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 

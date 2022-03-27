@@ -1,10 +1,12 @@
 package main
 
 import (
+	"log"
 	routes "main/routes"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func func1(res *gin.Context) {
@@ -16,6 +18,10 @@ func func2(res *gin.Context) {
 }
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Main Error Loading .env file")
+	}
 	port := os.Getenv("PORT")
 
 	if port == "" {
