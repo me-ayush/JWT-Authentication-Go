@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export const User = () => {
   let navigate = useNavigate()
@@ -51,8 +51,8 @@ export const User = () => {
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
-            <th scope="col">User Id</th>
             <th scope="col">User Type</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -65,12 +65,13 @@ export const User = () => {
                   <td>{d.last_name}</td>
                   <td>{d.email}</td>
                   <td>{d.phone}</td>
-                  <td>{d.user_id}</td>
+                  {/* <td>{d.user_id}</td> */}
                   {
                     d.user_type === 'ADMIN' ?
                       <td>Admin</td> :
                       <td>User</td>
                   }
+                  <td><Link className='nav-link' to={`/user/${d.user_id}`} target="_blank">View</Link></td>
                 </tr>
               )
             }

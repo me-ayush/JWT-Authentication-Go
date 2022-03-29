@@ -22,10 +22,13 @@ function App() {
       <Route path="/allusers" element={<User />}>
       </Route>
 
-      <Route path="/user" element={<Users />}>
-      </Route>
+      <Route path="/user">
+        <Route index element={<Users />} />
+        <Route path=":user_id" element={<Users />} />
+        </Route>
+      {/* <Route path="/user" element={<Users />} /> */}
 
-      <Route path='logout' element={<Logout/>} />
+      <Route path='/logout' element={<Logout/>} />
 
       <Route exact path="/" element={'<h1>HomePage</h1>'}></Route>
 
