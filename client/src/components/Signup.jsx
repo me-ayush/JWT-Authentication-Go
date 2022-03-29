@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 
 const SignUp = () => {
-  // const [first, setfirst] = useState()
-  // const [last, setLast] = useState()
-  // use
   const [input, setinput] = useState({
     first: "",
     last: "",
@@ -46,8 +43,12 @@ const SignUp = () => {
 
   const signUpUser = async(e) => {
     e.preventDefault();
-    const res = await fetch('/users/signup', {
-      method:"POST",
+    if(input.first=='' || input.last=='' || input.email == '' || input.pass=='' || input.phone == '' || input.type==''){
+      window.alert("Fill All Fields")
+    }else{
+
+      const res = await fetch('/users/signup', {
+        method:"POST",
       headers: {
         "Content-Type": "application/json"
       },
@@ -63,11 +64,12 @@ const SignUp = () => {
 
     const data = await res.json();
     console.log(data)
-    if (res.status === 500 || !data) {
+    if (res.status === 500 || !data || data.error) {
       window.alert(data.error);
     } else {
       window.alert('ok');
     }
+  }
 
 
   }
@@ -78,31 +80,31 @@ const SignUp = () => {
         <div className="row mb-3">
           <label htmlFor="first_name" className="col-sm-2 col-form-label">First Name</label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="first_name" onChange={firstNameChangeHandler} />
+            <input type="text" className="form-control" id="first_name" required onChange={firstNameChangeHandler} />
           </div>
         </div>
         <div className="row mb-3">
           <label htmlFor="last_name" className="col-sm-2 col-form-label">Last Name</label>
           <div className="col-sm-10">
-            <input type="text" className="form-control" id="last_name" onChange={lastNameChangeHandler} />
+            <input type="text" className="form-control" id="last_name" required onChange={lastNameChangeHandler} />
           </div>
         </div>
         <div className="row mb-3">
           <label htmlFor="user_email" className="col-sm-2 col-form-label">Email</label>
           <div className="col-sm-10">
-            <input type="email" className="form-control" id="user_email" onChange={emailNameChangeHandler} />
+            <input type="email" className="form-control" id="user_email" required onChange={emailNameChangeHandler} />
           </div>
         </div>
         <div className="row mb-3">
           <label htmlFor="user_phone" className="col-sm-2 col-form-label">Phone</label>
           <div className="col-sm-10">
-            <input type="number" className="form-control" id="user_phone" onChange={phoneNameChangeHandler} />
+            <input type="number" className="form-control" id="user_phone" required onChange={phoneNameChangeHandler} />
           </div>
         </div>
         <div className="row mb-3">
           <label htmlFor="user_pass" className="col-sm-2 col-form-label">Password</label>
           <div className="col-sm-10">
-            <input type="password" className="form-control" id="user_pass" onChange={passNameChangeHandler} />
+            <input type="password" className="form-control" id="user_pass" required onChange={passNameChangeHandler} />
           </div>
         </div>
         <fieldset className="row mb-3">

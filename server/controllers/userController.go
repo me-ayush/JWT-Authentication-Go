@@ -52,7 +52,7 @@ func Signup() gin.HandlerFunc {
 		}
 		validationErr := validate.Struct(user)
 		if validationErr != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error(), "error_type": "Validation Error"})
+			c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error(), "error_type": "Validation Error", "err": "Fill All Fields"})
 			return
 		}
 		count, err := userCollection.CountDocuments(ctx, bson.M{"email": user.Email})
