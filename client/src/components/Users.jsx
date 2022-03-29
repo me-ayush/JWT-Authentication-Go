@@ -77,7 +77,8 @@ export const Users = () => {
         })
 
         const data = await res.json();
-        if (res.status === 500 || !data) {
+        console.log(data)
+        if (res.status === 400 || !data) {
           window.alert(data.error)
           navigate("/login")
         } else {

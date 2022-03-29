@@ -2,8 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 
 const RenderLogged = () => {
-  return (
-    <>
+  const isAdmin = JSON.parse(localStorage.getItem('user'))
+  var ok = false
+  if(isAdmin === 'ADMIN'){
+    ok = true
+  }
+  const check=()=>{
+    if(ok){
+      return(
+        <>
       <li className="nav-item">
         <Link className="nav-link" to="/user">My Detail</Link>
       </li>
@@ -13,7 +20,23 @@ const RenderLogged = () => {
       <li className="nav-item">
         <Link className="nav-link" to="/logout">Logout</Link>
       </li>
-    </>
+        </>
+      )
+    }else{
+      return(
+        <>
+      <li className="nav-item">
+        <Link className="nav-link" to="/user">My Detail</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/logout">Logout</Link>
+      </li>
+        </>
+      )
+    }
+  }
+  return (
+    check()
   )
 }
 const RenderLogout = () => {

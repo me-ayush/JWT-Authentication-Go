@@ -22,7 +22,8 @@ export const Login = () => {
             window.alert(data.error);
           }else{
             window.alert('ok');
-            localStorage.setItem('user', JSON.stringify(data.first_name))
+            // console.log(data)
+            localStorage.setItem('user', JSON.stringify(data.user_type))
             localStorage.setItem('id', JSON.stringify(data.user_id))
             localStorage.setItem('token', JSON.stringify(data.token))
             const token =JSON.parse(localStorage.getItem('token'))
