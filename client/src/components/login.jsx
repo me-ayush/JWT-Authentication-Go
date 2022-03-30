@@ -7,7 +7,7 @@ export const Login = () => {
 
   const LoginUser = async(e) =>{
     e.preventDefault();
-        const res = await fetch('users/login',{
+        const res = await fetch('/login',{
             method: "POST",
             headers:{
                 "Content-Type":"application/json"

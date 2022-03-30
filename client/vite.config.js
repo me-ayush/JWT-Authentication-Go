@@ -8,12 +8,12 @@ export default defineConfig({
     host: true,
     proxy: {
       '/users/login': {
-        target: 'http://localhost:8888',
+        target: 'http://localhost:3000',
         secure: false,
         ws: true,
       },
       '/users': {
-        target: 'http://localhost:8888',
+        target: 'http://localhost:3000',
         secure: false,
         ws: true,
       }
