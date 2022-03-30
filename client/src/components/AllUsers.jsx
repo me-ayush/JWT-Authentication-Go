@@ -59,7 +59,7 @@ export const User = () => {
           {
             data && data.map((d, key) => {
               return (
-                <tr>
+                <tr key={d.user_id}>
                   <td>{key + 1}</td>
                   <td>{d.first_name}</td>
                   <td>{d.last_name}</td>

@@ -30,6 +30,7 @@ export const Login = () => {
             if (!token){
               console.log('no')
             }
+            window.location.replace("/user")
         }
   }
   

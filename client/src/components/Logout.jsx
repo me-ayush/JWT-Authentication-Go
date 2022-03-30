@@ -11,7 +11,8 @@ const Logout = () => {
         }else{
             localStorage.clear()
             window.alert('User Logout Successfull')
-            navigation('/')
+            // navigation('/')
+            window.location.replace("/")
         }
     }, [])
     

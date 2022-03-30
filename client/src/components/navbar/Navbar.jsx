@@ -1,56 +1,58 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
+import { Renderlogged } from './Renderlogged';
+import { Renderlogout } from './Renderlogout';
 
-const RenderLogged = () => {
-  const isAdmin = JSON.parse(localStorage.getItem('user'))
-  var ok = false
-  if(isAdmin === 'ADMIN'){
-    ok = true
-  }
-  const check=()=>{
-    if(ok){
-      return(
-        <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/user">My Detail</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/allusers">All Users</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/logout">Logout</Link>
-      </li>
-        </>
-      )
-    }else{
-      return(
-        <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/user">My Detail</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/logout">Logout</Link>
-      </li>
-        </>
-      )
-    }
-  }
-  return (
-    check()
-  )
-}
-const RenderLogout = () => {
-  return (
-    <>
-      <li className="nav-item">
-        <Link className="nav-link" to="/login">Login</Link>
-      </li>
-      <li className="nav-item">
-        <Link className="nav-link" to="/signup">Sign Up</Link>
-      </li>
-    </>
-  )
-}
+// const RenderLogged = () => {
+//   const isAdmin = JSON.parse(localStorage.getItem('user'))
+//   var ok = false
+//   if(isAdmin === 'ADMIN'){
+//     ok = true
+//   }
+//   const check=()=>{
+//     if(ok){
+//       return(
+//         <>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/user">My Detail</Link>
+//       </li>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/allusers">All Users</Link>
+//       </li>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/logout">Logout</Link>
+//       </li>
+//         </>
+//       )
+//     }else{
+//       return(
+//         <>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/user">My Detail</Link>
+//       </li>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/logout">Logout</Link>
+//       </li>
+//         </>
+//       )
+//     }
+//   }
+//   return (
+//     check()
+//   )
+// }
+// const RenderLogout = () => {
+//   return (
+//     <>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/login">Login</Link>
+//       </li>
+//       <li className="nav-item">
+//         <Link className="nav-link" to="/signup">Sign Up</Link>
+//       </li>
+//     </>
+//   )
+// }
 
 export const Navbar = () => {
   const [isloigged, setIsloigged] = useState(false)
@@ -59,7 +61,7 @@ export const Navbar = () => {
     if (token) {
       setIsloigged(true)
     }
-  }, [])
+  }, [isloigged])
 
   return (
     <>
@@ -76,8 +78,8 @@ export const Navbar = () => {
                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               {isloigged ?
-                <RenderLogged /> :
-                <RenderLogout />
+                <Renderlogged /> :
+                <Renderlogout />
               }
             </ul>
           </div>
